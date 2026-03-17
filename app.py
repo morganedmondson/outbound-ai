@@ -51,10 +51,44 @@ def inject_styles():
         --shadow-soft:      0 1px 3px rgba(0,0,0,0.04), 0 4px 12px -2px rgba(0,0,0,0.06);
         --shadow-elevated:  0 2px 8px -2px rgba(0,0,0,0.08), 0 8px 20px -4px rgba(0,0,0,0.07);
         --shadow-md:        0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        --shadow-lg:        0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        --shadow-xl:        0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+        --shadow-glow:      0 0 0 3px rgba(39,100,235,0.15);
+        --shadow-input:     0 1px 2px 0 rgba(0,0,0,0.05), inset 0 1px 2px rgba(0,0,0,0.03);
+        --radius-xs:        2px;
+        --text-display:     32px;
+        --text-heading:     24px;
+        --text-subheading:  18px;
+        --text-body:        14px;
+        --text-small:       13px;
+        --text-caption:     11px;
+        --weight-regular:   400;
+        --weight-medium:    500;
+        --weight-semibold:  600;
+        --weight-bold:      700;
+        --duration-fast:    100ms;
+        --duration-normal:  200ms;
+        --duration-slow:    300ms;
+        --ease-out:         cubic-bezier(0,0,0.2,1);
     }
 
     /* ── Global reset ───────────────────────────────────────────────────── */
+    html { scroll-behavior: smooth; }
     *, *::before, *::after { box-sizing: border-box; }
+
+    *:focus-visible {
+        outline: 2px solid var(--primary) !important;
+        outline-offset: 2px !important;
+    }
+    *:focus:not(:focus-visible) { outline: none !important; }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
 
     html, body, .stApp {
         font-family: var(--font) !important;
@@ -122,6 +156,11 @@ def inject_styles():
     hr { border: none !important; border-top: 1px solid var(--border) !important; margin: 1.5rem 0 !important; }
 
     /* ── Sidebar ────────────────────────────────────────────────────────── */
+    [data-testid="stSidebar"] {
+        width: 260px !important;
+        min-width: 260px !important;
+        max-width: 260px !important;
+    }
     [data-testid="stSidebar"],
     [data-testid="stSidebar"] > div:first-child {
         background-color: var(--surface) !important;
@@ -158,7 +197,7 @@ def inject_styles():
         font-weight: 600 !important;
         padding: 8px 18px !important;
         box-shadow: var(--shadow-sm) !important;
-        transition: all 150ms cubic-bezier(0,0,0.2,1) !important;
+        transition: all var(--duration-fast) var(--ease-out) !important;
         letter-spacing: -0.01em !important;
     }
     [data-testid="stButton"] > button[kind="primary"]:hover,
@@ -185,7 +224,7 @@ def inject_styles():
         font-weight: 600 !important;
         padding: 8px 18px !important;
         box-shadow: none !important;
-        transition: all 150ms cubic-bezier(0,0,0.2,1) !important;
+        transition: all var(--duration-fast) var(--ease-out) !important;
         letter-spacing: -0.01em !important;
     }
     [data-testid="stButton"] > button:not([kind="primary"]):hover {
@@ -244,8 +283,8 @@ def inject_styles():
         font-family: var(--font) !important;
         font-size: 14px !important;
         padding: 9px 12px !important;
-        box-shadow: var(--shadow-sm) !important;
-        transition: all 150ms ease-out !important;
+        box-shadow: var(--shadow-input) !important;
+        transition: all var(--duration-fast) var(--ease-out) !important;
     }
     [data-testid="stTextInput"] > div > div > input:focus {
         border-color: var(--primary) !important;
@@ -273,8 +312,8 @@ def inject_styles():
         font-size: 14px !important;
         line-height: 1.55 !important;
         padding: 10px 12px !important;
-        box-shadow: var(--shadow-soft) !important;
-        transition: all 200ms ease-out !important;
+        box-shadow: var(--shadow-input) !important;
+        transition: all var(--duration-normal) var(--ease-out) !important;
     }
     [data-testid="stTextArea"] > div > div > textarea:focus {
         border-color: rgba(39,100,235,0.4) !important;
@@ -316,6 +355,15 @@ def inject_styles():
     }
     .stTabs [data-baseweb="tab-highlight"],
     .stTabs [data-baseweb="tab-border"] { display: none !important; }
+
+    .stTabs [data-baseweb="tab-panel"] {
+        background: var(--surface) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: var(--radius-xl) !important;
+        box-shadow: var(--shadow-soft) !important;
+        padding: 20px 20px 16px !important;
+        margin-top: 8px !important;
+    }
 
     /* ── Alerts ──────────────────────────────────────────────────────────── */
     [data-testid="stAlert"] {
@@ -437,8 +485,9 @@ def word_badge(count: int, limit: int) -> str:
     return (
         f'<span style="display:inline-flex;align-items:center;gap:5px;'
         f'padding:3px 10px;background:{bg};border:1px solid {border};'
-        f'border-radius:4px;font-size:11px;font-weight:500;color:{color};'
-        f'font-family:\'Inter\',-apple-system,sans-serif;letter-spacing:0.01em;">'
+        f'border-radius:var(--radius-xs,2px);font-size:var(--text-caption,11px);'
+        f'font-weight:var(--weight-medium,500);color:{color};'
+        f'font-family:var(--font,\'Inter\',-apple-system,sans-serif);letter-spacing:0.01em;">'
         f'● {label}</span>'
     )
 
@@ -449,9 +498,10 @@ def char_badge(count: int) -> str:
         return (
             f'<span style="display:inline-flex;align-items:center;gap:5px;'
             f'padding:3px 10px;background:rgba(211,47,47,0.1);'
-            f'border:1px solid rgba(211,47,47,0.2);border-radius:4px;'
-            f'font-size:11px;font-weight:500;color:#D32F2F;'
-            f'font-family:\'Inter\',-apple-system,sans-serif;letter-spacing:0.01em;">'
+            f'border:1px solid rgba(211,47,47,0.2);border-radius:var(--radius-xs,2px);'
+            f'font-size:var(--text-caption,11px);font-weight:var(--weight-medium,500);'
+            f'color:var(--destructive,#D32F2F);'
+            f'font-family:var(--font,\'Inter\',-apple-system,sans-serif);letter-spacing:0.01em;">'
             f'⚠ {count} chars — too long for a connection request note (300 limit)</span>'
         )
     return ""
@@ -460,10 +510,10 @@ def char_badge(count: int) -> str:
 def info_box(html_content: str):
     """Nesti-styled info alert block."""
     st.markdown(
-        f'<div style="background:var(--gray-10,#F7F7F7);border:1px solid #E3E4E9;'
-        f'border-radius:12px;padding:10px 14px;margin-bottom:10px;'
-        f'font-size:12px;line-height:1.6;color:#636363;'
-        f'font-family:\'Inter\',-apple-system,BlinkMacSystemFont,sans-serif;">'
+        f'<div style="background:var(--gray-10,#F7F7F7);border:1px solid var(--border,#E3E4E9);'
+        f'border-radius:var(--radius-lg,12px);padding:10px 14px;margin-bottom:10px;'
+        f'font-size:var(--text-caption,11px);line-height:1.6;color:var(--gray-60,#636363);'
+        f'font-family:var(--font,\'Inter\',-apple-system,sans-serif);">'
         f'{html_content}</div>',
         unsafe_allow_html=True,
     )
