@@ -9,13 +9,15 @@ export function buildLinkedInMessage(firstName: string, icebreaker: string): str
 
 ${icebreaker}
 
-I'm the founder of Nesti. We build AI voice assistants for estate and letting agents that handle overflow and out-of-hours calls. Each one is trained on your agency's voice, your listings, and your local area, so it sounds like one of your own team picking up the phone.
+I'm the founder of Nesti. We build AI voice assistants for estate and letting agents that handle overflow and out-of-hours calls. Each one is fully trained on your agency's voice, your listings, and your local area, so it performs like one of your own negotiators picking up the phone.
 
-Our customers are typically seeing 40% more viewing appointments and 140% more buyers and properties registered.
+Our customers are seeing 40% more viewing appointments and 140% more buyers and properties registered.
 
-Peter Rollings (former CEO of Foxtons) is an investor and advisor, and we're live with agencies across the UK.
+We work with agencies like Fine & Country, Persimmon Homes, Richard James, and Hunters, and Peter Rollings, former MD of Foxtons, recently invested and joined our board.
 
-Worth a quick 15 minutes to see if it's a fit? Happy to show you a live demo.`
+To save you sitting through a demo, here is a live AI number you can call right now and hear it for yourself: +44 7727 638641
+
+Let me know what you think!`
 }
 
 // ─── Email 1: After Hours ─────────────────────────────────────────────────────
@@ -73,7 +75,7 @@ export function buildEmail4(firstName: string, icebreaker: string, companyName: 
 
 ${icebreaker}
 
-Peter Rollings, former CEO of Foxtons and one of the most respected names in UK residential property, is an investor and advisor at Nesti.
+Peter Rollings, former MD of Foxtons and one of the most respected names in UK residential property, is an investor and advisor at Nesti.
 
 He came on board because he's seen first-hand how much revenue agents lose to missed calls and slow response times, and he wanted to be part of fixing it.
 
