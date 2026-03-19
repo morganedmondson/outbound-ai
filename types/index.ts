@@ -48,6 +48,8 @@ export interface ScrapeResult {
   linkedinBlocked: boolean
 }
 
+export type NestiProduct = 'voice' | 'whatsapp' | 'qr_boards'
+
 export interface GeneratePayload {
   prospectName: string
   contextNotes: string
@@ -56,6 +58,7 @@ export interface GeneratePayload {
   websiteUrl?: string
   linkedinUrl?: string
   likedExamples?: string[]
+  selectedProducts?: NestiProduct[]
 }
 
 export type ProspectStatus = 'new' | 'contacted' | 'replied' | 'demo_booked' | 'not_interested'

@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk'
-import type { ClaudeGeneratedContent } from '@/types'
+import type { ClaudeGeneratedContent, NestiProduct } from '@/types'
 
 const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -9,25 +9,35 @@ const SYSTEM_PROMPT = `You are writing outbound sales copy for the founder of Ne
 
 Your ONLY job is to generate ONE short, personalised icebreaker line for each of five outreach messages (1 LinkedIn DM + 4 cold emails). The rest of each message is fixed copy that will be appended automatically. You also write subject lines for the four emails.
 
-ABOUT NESTI (use these exact phrasings and facts — do not paraphrase or invent alternatives):
+ABOUT NESTI — THREE PRODUCTS:
 
-What Nesti does:
-"We build AI voice assistants for estate and letting agents that handle overflow and out-of-hours calls."
+1. AI VOICE ASSISTANT
+What it does: "We build AI voice assistants for estate and letting agents that handle overflow and out-of-hours calls."
+How it works: "Each one is fully trained on your agency's voice, your listings, and your local area, so it performs like one of your own negotiators picking up the phone."
+Key use case: Replaces call centres and answering services. Catches missed calls evenings, weekends, and busy periods.
+The problem it solves: 40% of property enquiries come in outside office hours and go unanswered. The average cost of a missed call in property is around £1,200.
+Results: "Our customers are seeing 40% more viewing appointments and 140% more buyers and properties registered."
+Live demo number (use in LinkedIn DM for Voice only): +44 7727 638641
 
-How each assistant works:
-"Each one is fully trained on your agency's voice, your listings, and your local area, so it performs like one of your own negotiators picking up the phone."
+2. AI WHATSAPP ASSISTANT
+What it does: Handles inbound enquiries via WhatsApp. Qualifies buyers and tenants automatically, 24/7.
+How it works: Responds to every inbound WhatsApp enquiry within seconds. Qualifies leads against the agency's criteria, books viewings directly into the diary, and only escalates to the team when genuinely needed.
+Key use case: Inbound lead qualification. The alternative to slow email follow-up or missed enquiries from portals.
+The problem it solves: The average response time to a property enquiry in the UK is over 47 hours. By then, most leads have moved on.
+Results: More leads converted, faster, with no extra load on the team.
 
-Results to reference:
-"Our customers are seeing 40% more viewing appointments and 140% more buyers and properties registered."
+3. AI QR BOARDS
+What it does: Embeds AI voice technology into for sale and to let property boards via QR code.
+How it works: In partnership with Agency Express. Buyers and tenants scan a QR code on the board and speak directly to a voice AI that knows the property, the area, and the agency. Any time, day or night.
+Key use case: Turn every board into a 24/7 negotiator. Capture buyers driving past at 8pm on a Sunday.
+The problem it solves: Most boards display a phone number that goes unanswered after 5pm. Interested buyers drive on and forget.
+Partnership: Agency Express (supply boards to thousands of UK estate agents).
 
-Credibility:
+CREDIBILITY (relevant to all products):
 "Peter Rollings, former MD of Foxtons, recently invested and joined our board."
 Customers include: Fine & Country, Persimmon Homes, Richard James, and Hunters.
 
-Live demo number (use in LinkedIn DM only):
-"+44 7727 638641"
-
-EXAMPLE OF GOOD COPY (this is a real message that got results — study the tone, structure, and level of detail):
+EXAMPLE OF GOOD COPY (study the tone, structure, and level of detail):
 
 "Hi Ollie, thanks for connecting. I noticed that you work with Kotini, which made me assume that you're a forward-thinking agent!
 
@@ -48,12 +58,6 @@ TONE AND VOICE RULES:
 - Never say "AI agent" or "AI voice agent" — always "AI voice assistant" or just "Nesti"
 - No jargon, no buzzwords, no over-explaining
 - Conversational but professional, like a smart person writing to a peer
-
-THE FOUR EMAIL ANGLES (tailor each icebreaker to set up its angle naturally):
-1. After Hours — 40% of enquiries come in outside office hours and most go unanswered
-2. Differentiation — Nesti is trained on your specific agency, not a generic off-the-shelf tool
-3. Cost — the average missed call in property costs around £1,200
-4. Credibility — Peter Rollings, Fine & Country, Persimmon, Hunters are already on board
 
 ICEBREAKER RULES:
 - Maximum 1–2 sentences, ideally under 25 words
@@ -90,7 +94,9 @@ Subject line rules:
 - No clickbait, no excessive punctuation
 - Should feel like it came from a real person
 - Relevant to the email angle
-- Examples: "Missing calls after hours?", "Built for agents not everyone", "The cost of a missed call", "A familiar name in property"`
+- Examples for Voice: "Missing calls after hours?", "Built for agents not everyone", "The cost of a missed call", "A familiar name in property"
+- Examples for WhatsApp: "Still waiting 47 hours to respond?", "Qualify every lead instantly", "The leads slipping through the cracks", "A familiar name in property"
+- Examples for QR Boards: "Your boards could do more", "Make every board work 24/7", "Interactive boards for estate agents", "A familiar name in property"`
 
 // Strip em dashes, en dashes, colons, semicolons from generated copy
 function sanitize(text: string): string {
@@ -102,6 +108,48 @@ function sanitize(text: string): string {
     .trim()
 }
 
+function productLabel(p: NestiProduct): string {
+  if (p === 'voice') return 'AI Voice Assistant'
+  if (p === 'whatsapp') return 'AI WhatsApp Assistant'
+  return 'AI QR Boards'
+}
+
+function getEmailAngles(products: NestiProduct[]): string[] {
+  if (products.length === 1) {
+    if (products[0] === 'voice') {
+      return [
+        'Email 1 angle: After Hours — 40% of enquiries come in outside office hours and most go unanswered',
+        'Email 2 angle: Differentiation — Nesti is trained on your specific agency, not a generic off-the-shelf tool',
+        'Email 3 angle: Cost — the average missed call in property costs around £1,200',
+        'Email 4 angle: Credibility — Peter Rollings, Fine & Country, Persimmon, Hunters are already on board',
+      ]
+    }
+    if (products[0] === 'whatsapp') {
+      return [
+        'Email 1 angle: Response Speed — the average response time to a property enquiry is over 47 hours',
+        'Email 2 angle: Qualification Quality — generic chatbots are useless; Nesti qualifies leads properly',
+        'Email 3 angle: Efficiency — teams waste hours chasing bad leads while good ones slip through',
+        'Email 4 angle: Credibility — Peter Rollings, Fine & Country, Persimmon, Hunters are already on board',
+      ]
+    }
+    if (products[0] === 'qr_boards') {
+      return [
+        'Email 1 angle: Interactive Boards — every board could be a 24/7 agent but currently does nothing after 5pm',
+        'Email 2 angle: First Mover — agencies that adopt interactive boards first will stand out in their market',
+        'Email 3 angle: Revenue — every board is a missed lead source right now',
+        'Email 4 angle: Credibility — Agency Express partnership, Peter Rollings, Fine & Country etc.',
+      ]
+    }
+  }
+  // Suite
+  return [
+    'Email 1 angle: AI Voice — 40% of enquiries come in outside office hours and go unanswered',
+    'Email 2 angle: AI WhatsApp — 47-hour average response time; leads go cold before agents get back to them',
+    'Email 3 angle: AI QR Boards — for sale and to let boards currently do nothing after 5pm',
+    'Email 4 angle: Full Suite Credibility — Peter Rollings, Fine & Country, Persimmon, Hunters, the whole Nesti platform',
+  ]
+}
+
 interface GenerateOptions {
   prospectName: string
   websiteContent: string | null
@@ -109,10 +157,27 @@ interface GenerateOptions {
   contextNotes: string
   notepadContent?: string
   likedExamples?: string[]
+  selectedProducts?: NestiProduct[]
 }
 
 export async function generateIcebreakers(opts: GenerateOptions): Promise<ClaudeGeneratedContent> {
-  const { prospectName, websiteContent, linkedinContent, contextNotes, notepadContent, likedExamples } = opts
+  const {
+    prospectName,
+    websiteContent,
+    linkedinContent,
+    contextNotes,
+    notepadContent,
+    likedExamples,
+    selectedProducts = ['voice'],
+  } = opts
+
+  const isSuite = selectedProducts.length > 1
+  const productNames = selectedProducts.map(productLabel).join(', ')
+  const emailAngles = getEmailAngles(selectedProducts)
+
+  const productContext = isSuite
+    ? `PRODUCTS TO SELL: ${productNames} (position Nesti as a full AI platform for estate agents covering all three areas)`
+    : `PRODUCT TO SELL: ${productNames} (focus all five messages on this single product)`
 
   const userMessage = `Generate personalised icebreakers for this prospect.
 
@@ -121,6 +186,11 @@ Prospect name: ${prospectName || 'Unknown'}
 ${websiteContent ? `WEBSITE CONTENT:\n${websiteContent}\n` : 'No website content available.\n'}
 ${linkedinContent ? `LINKEDIN CONTENT:\n${linkedinContent}\n` : 'No LinkedIn content available.\n'}
 ${contextNotes ? `EXTRA CONTEXT:\n${contextNotes}\n` : ''}
+${productContext}
+
+EMAIL ANGLES (write each icebreaker to lead naturally into its angle):
+${emailAngles.join('\n')}
+
 ${notepadContent ? `COPY STYLE REFERENCE (examples of copy the sender likes — match this tone, style, and structure):\n${notepadContent}\n` : ''}
 ${likedExamples && likedExamples.length > 0 ? `MESSAGES THAT WORKED WELL (these were marked as liked — match their tone, structure, and personalisation level closely):\n\n${likedExamples.map((m, i) => `Example ${i + 1}:\n${m}`).join('\n\n---\n\n')}\n` : ''}
 

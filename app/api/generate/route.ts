@@ -6,16 +6,23 @@ import {
   buildEmail2,
   buildEmail3,
   buildEmail4,
+  getEmailConfigs,
   countWords,
-  EMAIL_CONFIGS,
 } from '@/lib/templates'
-import type { GeneratedMessages, GeneratePayload } from '@/types'
+import type { GeneratedMessages, GeneratePayload, NestiProduct } from '@/types'
 
 export async function POST(req: NextRequest) {
   try {
     const body: GeneratePayload = await req.json()
 
-    const { prospectName, contextNotes, scrapeResult, notepadContent, likedExamples } = body
+    const {
+      prospectName,
+      contextNotes,
+      scrapeResult,
+      notepadContent,
+      likedExamples,
+      selectedProducts = ['voice'] as NestiProduct[],
+    } = body
 
     const claude = await generateIcebreakers({
       prospectName,
@@ -24,18 +31,21 @@ export async function POST(req: NextRequest) {
       contextNotes,
       notepadContent,
       likedExamples,
+      selectedProducts,
     })
 
     const name = claude.prospect_first_name || prospectName || 'there'
     const company = claude.company_name || 'your agency'
 
-    const linkedinFull = buildLinkedInMessage(name, claude.linkedin_icebreaker)
+    const emailConfigs = getEmailConfigs(selectedProducts)
 
-    const emailBuilders = [
-      buildEmail1(name, claude.email_1_icebreaker),
-      buildEmail2(name, claude.email_2_icebreaker),
-      buildEmail3(name, claude.email_3_icebreaker, company),
-      buildEmail4(name, claude.email_4_icebreaker, company),
+    const linkedinFull = buildLinkedInMessage(name, claude.linkedin_icebreaker, selectedProducts)
+
+    const emailBodies = [
+      buildEmail1(name, claude.email_1_icebreaker, selectedProducts),
+      buildEmail2(name, claude.email_2_icebreaker, selectedProducts),
+      buildEmail3(name, claude.email_3_icebreaker, company, selectedProducts),
+      buildEmail4(name, claude.email_4_icebreaker, company, selectedProducts),
     ]
 
     const subjects = [
@@ -61,14 +71,14 @@ export async function POST(req: NextRequest) {
         wordCount: countWords(linkedinFull),
         charCount: linkedinFull.length,
       },
-      emails: EMAIL_CONFIGS.map((cfg, i) => ({
+      emails: emailConfigs.map((cfg, i) => ({
         id: cfg.id,
         label: cfg.label,
         angle: cfg.angle,
         subject: subjects[i],
         icebreaker: icebreakers[i],
-        body: emailBuilders[i],
-        wordCount: countWords(emailBuilders[i]),
+        body: emailBodies[i],
+        wordCount: countWords(emailBodies[i]),
       })),
     }
 
