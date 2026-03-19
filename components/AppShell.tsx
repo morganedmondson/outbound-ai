@@ -13,7 +13,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <header className="border-b border-border bg-surface shadow-soft flex-shrink-0">
-        <div className="mx-auto max-w-screen-xl px-6 py-3.5 flex items-center">
+        <div className="px-6 py-3.5 flex items-center">
           <Link href="/" className="flex items-center no-underline">
             <img src="/nesti-logo.svg" alt="Nesti" className="h-7 w-auto" />
           </Link>
