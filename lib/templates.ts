@@ -61,63 +61,58 @@ export function buildLinkedInMessage(
   const isSuite = products.length > 1
 
   if (isSuite) {
-    return `Hi ${firstName}, thanks for connecting.
+    return `Hi ${firstName},
 
 ${icebreaker}
 
-I'm the founder of Nesti. We build an AI platform for estate and letting agents covering missed calls, inbound WhatsApp enquiries, and interactive property boards. Each product is trained on your agency's voice, your listings, and your local area.
+I'm the founder of Nesti, we are an AI company for estate and letting agents, focusing on helping agents never miss an enquiry or opportunity. We do this through two core products:
 
-Our customers are seeing 40% more viewing appointments and 140% more buyers and properties registered.
+- AI-enabled call handling that is a significantly better and cheaper alternative to voicemails and traditional call centres like Moneypenny
+- AI WhatsApp that can deal with incoming portal enquiries and qualify applicants over WhatsApp automatically
 
-We work with agencies like Fine & Country, Persimmon Homes, Richard James, and Hunters, and Peter Rollings, former MD of Foxtons, recently invested and joined our board.
+Here is a number you can try calling for yourself: +44 7727 638641
 
-To hear our AI in action, call this live number now: +44 7727 638641
+We're already working with businesses like Fine & Country, Persimmon Homes, Hunters, Richard James, and we have investors like Peter Rollings, former Foxtons MD, on board.
 
-Let me know what you think!`
+Would you potentially be interested in a 15-min demo at some point in the coming weeks?`
   }
 
   if (products[0] === 'whatsapp') {
-    return `Hi ${firstName}, thanks for connecting.
+    return `Hi ${firstName},
 
 ${icebreaker}
 
-I'm the founder of Nesti. We build AI WhatsApp assistants for estate and letting agents that qualify inbound enquiries instantly, 24 hours a day. Every buyer and tenant gets a response within seconds, fully qualified, with viewings booked directly into your diary.
+I'm the founder of Nesti, we are an AI company for estate and letting agents, focusing on helping agents never miss an enquiry or opportunity. Our AI WhatsApp product deals with incoming portal enquiries and qualifies applicants automatically over WhatsApp, so your team only picks up conversations that are worth their time.
 
-Our customers are seeing 40% more viewing appointments and 140% more buyers and properties registered.
+We're already working with businesses like Fine & Country, Persimmon Homes, Hunters, Richard James, and we have investors like Peter Rollings, former Foxtons MD, on board.
 
-We work with agencies like Fine & Country, Persimmon Homes, Richard James, and Hunters, and Peter Rollings, former MD of Foxtons, recently invested and joined our board.
-
-Let me know if you'd like to see how it works!`
+Would you potentially be interested in a 15-min demo at some point in the coming weeks?`
   }
 
   if (products[0] === 'qr_boards') {
-    return `Hi ${firstName}, thanks for connecting.
+    return `Hi ${firstName},
 
 ${icebreaker}
 
 I'm the founder of Nesti. We've partnered with Agency Express to embed AI voice technology into property boards. Buyers and tenants scan a QR code on your for sale or to let board and speak directly to a voice AI that knows the property, the area, and your agency. Any time, day or night.
 
-It turns every board into a 24/7 negotiator and captures buyers who would otherwise have driven past and forgotten.
+We're already working with businesses like Fine & Country, Persimmon Homes, Hunters, Richard James, and we have investors like Peter Rollings, former Foxtons MD, on board.
 
-Peter Rollings, former MD of Foxtons, recently invested and joined our board, and we're already working with agencies like Fine & Country, Persimmon Homes, Richard James, and Hunters.
-
-Let me know if you'd like to see it in action!`
+Would you potentially be interested in a 15-min demo at some point in the coming weeks?`
   }
 
   // Voice (default)
-  return `Hi ${firstName}, thanks for connecting.
+  return `Hi ${firstName},
 
 ${icebreaker}
 
-I'm the founder of Nesti. We build AI voice assistants for estate and letting agents that handle overflow and out-of-hours calls. Each one is fully trained on your agency's voice, your listings, and your local area, so it performs like one of your own negotiators picking up the phone.
+I'm the founder of Nesti, we are an AI company for estate and letting agents, focusing on helping agents never miss an enquiry or opportunity. Our AI-enabled call handling is a significantly better and cheaper alternative to voicemails and traditional call centres like Moneypenny.
 
-Our customers are seeing 40% more viewing appointments and 140% more buyers and properties registered.
+Here is a number you can try calling for yourself: +44 7727 638641
 
-We work with agencies like Fine & Country, Persimmon Homes, Richard James, and Hunters, and Peter Rollings, former MD of Foxtons, recently invested and joined our board.
+We're already working with businesses like Fine & Country, Persimmon Homes, Hunters, Richard James, and we have investors like Peter Rollings, former Foxtons MD, on board.
 
-To save you sitting through a demo, here is a live AI number you can call right now and hear it for yourself: +44 7727 638641
-
-Let me know what you think!`
+Would you potentially be interested in a 15-min demo at some point in the coming weeks?`
 }
 
 // ─── Email 1 ──────────────────────────────────────────────────────────────────

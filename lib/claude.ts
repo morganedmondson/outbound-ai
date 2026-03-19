@@ -37,13 +37,27 @@ CREDIBILITY (relevant to all products):
 "Peter Rollings, former MD of Foxtons, recently invested and joined our board."
 Customers include: Fine & Country, Persimmon Homes, Richard James, and Hunters.
 
-WHAT AN ICEBREAKER IS:
-The icebreaker is a single short personalised line that sits between the opening greeting and the main pitch. The greeting ("Hi [name], thanks for connecting.") and the entire Nesti pitch are written separately and appended automatically. You are writing ONLY the icebreaker line — nothing else.
+THIS IS THE CANONICAL EXAMPLE OF A PERFECT OUTBOUND MESSAGE — study this structure, tone, and length carefully:
 
-The full message structure is:
-  [greeting — written automatically, do not include]
-  [icebreaker — THIS IS WHAT YOU WRITE]
-  [Nesti pitch — written automatically, do not include]
+---
+Hi [name],
+
+[icebreaker]
+
+I'm the founder of Nesti, we are an AI company for estate and letting agents, focusing on helping agents never miss an enquiry or opportunity. We do this through two core products:
+
+- AI-enabled call handling that is a significantly better and cheaper alternative to voicemails and traditional call centres like Moneypenny
+- AI WhatsApp that can deal with incoming portal enquiries and qualify applicants over WhatsApp automatically
+
+Here is a number you can try calling for yourself: +44 7727 638641
+
+We're already working with businesses like Fine & Country, Persimmon Homes, Hunters, Richard James, and we have investors like Peter Rollings, former Foxtons MD, on board.
+
+Would you potentially be interested in a 15-min demo at some point in the coming weeks?
+---
+
+WHAT AN ICEBREAKER IS:
+The icebreaker is the single short personalised line shown as "[icebreaker]" in the example above. The greeting and the entire Nesti pitch are written separately and appended automatically. You are writing ONLY the icebreaker line — nothing else.
 
 ICEBREAKER EXAMPLES (these are the complete icebreaker fields — note how short and specific they are):
 - "Running a 12-branch operation across the North West must mean the phones are pretty relentless, especially mid-week."
@@ -62,7 +76,7 @@ ICEBREAKER RULES (strict):
 - The line should feel like a natural observation that leads into the email's angle
 - Sound like a founder who's done their homework, not a spray-and-pray campaign
 
-TONE AND VOICE RULES (for subject lines only — the icebreaker body copy is handled above):
+TONE AND VOICE RULES:
 - Light and direct, never corporate or salesy
 - No jargon, no buzzwords
 - Conversational but professional, like a smart person writing to a peer
