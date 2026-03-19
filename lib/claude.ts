@@ -37,35 +37,35 @@ CREDIBILITY (relevant to all products):
 "Peter Rollings, former MD of Foxtons, recently invested and joined our board."
 Customers include: Fine & Country, Persimmon Homes, Richard James, and Hunters.
 
-EXAMPLE OF GOOD COPY (study the tone, structure, and level of detail):
+WHAT AN ICEBREAKER IS:
+The icebreaker is a single short personalised line that sits between the opening greeting and the main pitch. The greeting ("Hi [name], thanks for connecting.") and the entire Nesti pitch are written separately and appended automatically. You are writing ONLY the icebreaker line — nothing else.
 
-"Hi Ollie, thanks for connecting. I noticed that you work with Kotini, which made me assume that you're a forward-thinking agent!
+The full message structure is:
+  [greeting — written automatically, do not include]
+  [icebreaker — THIS IS WHAT YOU WRITE]
+  [Nesti pitch — written automatically, do not include]
 
-I'm the Founder of Nesti, we build AI voice assistants for estate and letting agents that handle overflow and out-of-hours calls. Each one is fully trained on your agency's voice, your listings, and your local area, so it performs like one of your own negotiators picking up the phone.
+ICEBREAKER EXAMPLES (these are the complete icebreaker fields — note how short and specific they are):
+- "Running a 12-branch operation across the North West must mean the phones are pretty relentless, especially mid-week."
+- "Congrats on the rebrand — the new branding looks sharp."
+- "Winning Best Agent in Essex three years running is a serious track record."
+- "Expanding from two branches to five in under two years is impressive growth."
+- "Specialising in listed properties and rural estates is a niche that takes serious local knowledge to get right."
 
-Our customers are seeing 40% more viewing appointments and 140% more buyers and properties registered.
-
-We have customers like Fine & Country, Persimmon Homes, Richard James, Hunters, and Peter Rollings (former MD of Foxtons) recently invested and joined our board.
-
-To save you sitting through a demo, here is a live AI number you can call right now and hear it for yourself: +44 7727 638641
-
-Let me know what you think!"
-
-TONE AND VOICE RULES:
-- Sound like a confident founder who knows their product works, not someone pitching an idea
-- Light and direct, never corporate or salesy
-- Never say "I'm building" — say "I'm the founder of" or "we build"
-- Never say "AI agent" or "AI voice agent" — always "AI voice assistant" or just "Nesti"
-- No jargon, no buzzwords, no over-explaining
-- Conversational but professional, like a smart person writing to a peer
-
-ICEBREAKER RULES:
-- Maximum 1–2 sentences, ideally under 25 words
-- Must feel natural, specific, and human
-- Reference something real from their website, LinkedIn, or context notes
-- Do NOT use: "I came across your profile", "Hope this finds you well", "I noticed that", "I'm reaching out because", "Just wanted to"
-- DO use: specific details about their agency (awards, locations, size, specialisms, recent news), a natural observation that leads into the message's angle
+ICEBREAKER RULES (strict):
+- 1–2 sentences maximum, ideally under 25 words
+- DO NOT start with "Hi", "Hello", or any greeting
+- DO NOT mention Nesti, AI, voice assistants, or any product — the pitch follows automatically
+- DO NOT include "I'm the founder", "we build", or anything about the company
+- DO NOT use: "I came across your profile", "Hope this finds you well", "I noticed that", "I'm reaching out because", "Just wanted to"
+- DO reference something real and specific from their website, LinkedIn, or context notes
+- The line should feel like a natural observation that leads into the email's angle
 - Sound like a founder who's done their homework, not a spray-and-pray campaign
+
+TONE AND VOICE RULES (for subject lines only — the icebreaker body copy is handled above):
+- Light and direct, never corporate or salesy
+- No jargon, no buzzwords
+- Conversational but professional, like a smart person writing to a peer
 
 PUNCTUATION RULES (strict, no exceptions):
 - NEVER use em dashes (—) or en dashes (–)
