@@ -9,11 +9,13 @@ export function buildLinkedInMessage(firstName: string, icebreaker: string): str
 
 ${icebreaker}
 
-I'm building Nesti — an AI voice agent built specifically for estate and letting agents. It answers calls 24/7, qualifies buyers and tenants, books viewings, and captures every enquiry — even at 11pm on a Sunday.
+I'm the founder of Nesti. We build AI voice assistants for estate and letting agents that handle overflow and out-of-hours calls. Each one is trained on your agency's voice, your listings, and your local area, so it sounds like one of your own team picking up the phone.
 
-Peter Rollings (former CEO of Foxtons) is an investor and advisor, and we're already live with agencies across the UK.
+Our customers are typically seeing 40% more viewing appointments and 140% more buyers and properties registered.
 
-Worth a quick 15-min call to see if it's a fit for ${firstName === firstName ? 'you' : firstName}? Happy to show you a live demo.`
+Peter Rollings (former CEO of Foxtons) is an investor and advisor, and we're live with agencies across the UK.
+
+Worth a quick 15 minutes to see if it's a fit? Happy to show you a live demo.`
 }
 
 // ─── Email 1: After Hours ─────────────────────────────────────────────────────
@@ -23,13 +25,13 @@ export function buildEmail1(firstName: string, icebreaker: string): string {
 
 ${icebreaker}
 
-40% of property enquiries happen outside office hours — and most agents miss them.
+40% of property enquiries come in outside office hours, and most of those calls go unanswered.
 
-Nesti is an AI voice agent built specifically for estate and letting agents. It answers every call 24/7, qualifies buyers and tenants, books viewings, and makes sure no enquiry ever slips through the cracks.
+I'm the founder of Nesti. We build AI voice assistants for estate and letting agents that handle overflow and out-of-hours calls. Each one is trained on your agency's voice, your listings, and your local area, so it sounds like one of your own team picking up the phone.
 
-No more missed calls. No more lost valuations. Just more instructions.
+Our customers are typically seeing 40% more viewing appointments and 140% more buyers and properties registered.
 
-Would it be worth a quick 15-minute call to see how it works?`
+Worth a quick 15-minute call to see how it works?`
 }
 
 // ─── Email 2: Differentiation ─────────────────────────────────────────────────
@@ -39,11 +41,11 @@ export function buildEmail2(firstName: string, icebreaker: string): string {
 
 ${icebreaker}
 
-Most AI tools used in property are generic — built for any industry, trained on nothing specific.
+Most voice tools in property are generic, built for any industry and trained on nothing specific.
 
-Nesti is different. It's trained specifically on how estate and letting agents work: how to qualify a buyer, handle a tenant enquiry, respond to a valuation request, and sound like a natural extension of your team — not a robot.
+Nesti is different. Each assistant is trained on your agency's voice, your listings, and your local area, so it performs like one of your own negotiators picking up the phone. It qualifies buyers and tenants, books viewings, and handles the back-and-forth, so your team can focus on the work that actually needs a human.
 
-It handles calls 24/7, books viewings, and captures every lead — so your team can focus on the work that actually needs a human.
+Our customers are typically seeing 40% more viewing appointments and 140% more buyers and properties registered.
 
 Happy to show you a 10-minute demo if you'd like to see it in action?`
 }
@@ -55,13 +57,11 @@ export function buildEmail3(firstName: string, icebreaker: string, companyName: 
 
 ${icebreaker}
 
-The average cost of a missed business call in the property industry is £1,200.
+The average cost of a missed call in property is around £1,200. Most agencies are missing dozens every month, evenings, weekends, and the busy periods when the team just can't get to the phone.
 
-Most agents are missing dozens every month — evenings, weekends, busy periods when the team just can't get to the phone.
+At Nesti, we build AI voice assistants for estate and letting agents that handle those calls. Each one is trained on your agency's voice, your listings, and your local area, so it sounds like one of the ${companyName} team picking up.
 
-Nesti is an AI voice agent that answers every call for ${companyName}, 24/7. It qualifies buyers and tenants, books viewings, and handles all the back-and-forth — so nothing falls through the cracks.
-
-It pays for itself the first time it catches a valuation your team would have missed.
+It typically pays for itself the first time it catches a valuation your team would have missed.
 
 Worth a quick 15-minute call?`
 }
@@ -73,13 +73,15 @@ export function buildEmail4(firstName: string, icebreaker: string, companyName: 
 
 ${icebreaker}
 
-Peter Rollings — former CEO of Foxtons and one of the most respected names in UK residential property — is an investor and advisor at Nesti.
+Peter Rollings, former CEO of Foxtons and one of the most respected names in UK residential property, is an investor and advisor at Nesti.
 
-He joined because he's seen first-hand how much revenue agents lose to missed calls, slow response times, and leads that go cold overnight.
+He came on board because he's seen first-hand how much revenue agents lose to missed calls and slow response times, and he wanted to be part of fixing it.
 
-Nesti is an AI voice agent built specifically for estate and letting agents. It answers every call 24/7, qualifies buyers and tenants, books viewings, and makes sure ${companyName} never misses an instruction.
+We build AI voice assistants for estate and letting agents that handle overflow and out-of-hours calls. Each one is trained on your agency's voice, your listings, and your local area, so it sounds like one of the ${companyName} team picking up.
 
-I'd love to show you a quick demo — would 15 minutes this week work?`
+Our customers are typically seeing 40% more viewing appointments and 140% more buyers and properties registered.
+
+I'd love to show you a quick demo. Would 15 minutes this week work?`
 }
 
 // ─── Email config metadata ────────────────────────────────────────────────────
