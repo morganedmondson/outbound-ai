@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import type { ProspectFormData, GeneratedMessages, ScrapeResult } from '@/types'
+import type { ProspectFormData, GeneratedMessages, GeneratePayload, ScrapeResult } from '@/types'
 
 interface Props {
-  onGenerate: (messages: GeneratedMessages) => void
+  onGenerate: (messages: GeneratedMessages, payload: GeneratePayload) => void
   isGenerating: boolean
   setIsGenerating: (v: boolean) => void
 }
@@ -73,15 +73,22 @@ export default function ProspectForm({ onGenerate, isGenerating, setIsGenerating
         linkedinContent: form.linkedinText || scrapeData.linkedinContent,
       }
 
+      // Read notepad content from localStorage
+      const notepadContent =
+        typeof window !== 'undefined' ? localStorage.getItem('nesti-notepad') || '' : ''
+
+      const payload: GeneratePayload = {
+        prospectName: form.name,
+        contextNotes: form.contextNotes,
+        scrapeResult: mergedScrape,
+        notepadContent: notepadContent || undefined,
+      }
+
       // Step 2: Generate
       const genRes = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          prospectName: form.name,
-          contextNotes: form.contextNotes,
-          scrapeResult: mergedScrape,
-        }),
+        body: JSON.stringify(payload),
       })
 
       if (!genRes.ok) {
@@ -90,7 +97,7 @@ export default function ProspectForm({ onGenerate, isGenerating, setIsGenerating
       }
 
       const messages: GeneratedMessages = await genRes.json()
-      onGenerate(messages)
+      onGenerate(messages, payload)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {

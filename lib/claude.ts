@@ -31,6 +31,13 @@ ICEBREAKER RULES:
 - Each icebreaker should set up the email angle naturally without being too on the nose
 - Sound like it comes from a founder who's done their homework, not a spray-and-pray campaign
 
+PUNCTUATION RULES (strict — no exceptions):
+- NEVER use em dashes (—) or en dashes (–) anywhere in your output
+- NEVER use colons (:) anywhere in your output
+- NEVER use semicolons (;) anywhere in your output
+- Use a full stop or a new sentence instead. Use a comma or "and" instead of a dash.
+- This applies to ALL fields including subject lines and icebreakers
+
 GOOD EXAMPLES:
 - "Congrats on winning Best Agency in [Area] — expanding into lettings as well as sales must keep the team incredibly busy."
 - "Your Mayfair portfolio is impressive — I imagine fielding enquiries from international buyers at all hours is something your team deals with regularly."
@@ -58,15 +65,26 @@ Subject line rules:
 - Relevant to the email angle
 - Examples: "Missing calls after hours?", "AI built for agents, not just any business", "The cost of a missed call", "A familiar name in property tech"`
 
+// Strip em dashes, en dashes, colons, semicolons from generated copy
+function sanitize(text: string): string {
+  return text
+    .replace(/[—–]/g, ' - ')
+    .replace(/;/g, '.')
+    .replace(/:/g, ' -')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
+}
+
 interface GenerateOptions {
   prospectName: string
   websiteContent: string | null
   linkedinContent: string | null
   contextNotes: string
+  notepadContent?: string
 }
 
 export async function generateIcebreakers(opts: GenerateOptions): Promise<ClaudeGeneratedContent> {
-  const { prospectName, websiteContent, linkedinContent, contextNotes } = opts
+  const { prospectName, websiteContent, linkedinContent, contextNotes, notepadContent } = opts
 
   const userMessage = `Generate personalised icebreakers for this prospect.
 
@@ -75,8 +93,9 @@ Prospect name: ${prospectName || 'Unknown'}
 ${websiteContent ? `WEBSITE CONTENT:\n${websiteContent}\n` : 'No website content available.\n'}
 ${linkedinContent ? `LINKEDIN CONTENT:\n${linkedinContent}\n` : 'No LinkedIn content available.\n'}
 ${contextNotes ? `EXTRA CONTEXT:\n${contextNotes}\n` : ''}
+${notepadContent ? `COPY STYLE REFERENCE (examples of copy the sender likes — match this tone, style, and structure):\n${notepadContent}\n` : ''}
 
-Use any specific details you can find (agency name, location, specialisms, awards, team size, recent news) to make each icebreaker feel genuinely personalised. If you don't have much to work with, make a plausible, professional inference based on what you do know.`
+Use any specific details you can find (agency name, location, specialisms, awards, team size, recent news) to make each icebreaker feel genuinely personalised. If you don't have much to work with, make a plausible, professional inference based on what you do know. Remember: absolutely no em dashes, colons, or semicolons anywhere in your output.`
 
   const response = await client.messages.create({
     model: 'claude-opus-4-6',
@@ -97,7 +116,20 @@ Use any specific details you can find (agency name, location, specialisms, award
 
   try {
     const parsed = JSON.parse(raw) as ClaudeGeneratedContent
-    return parsed
+    // Sanitize all generated text fields
+    return {
+      prospect_first_name: parsed.prospect_first_name,
+      company_name: parsed.company_name,
+      linkedin_icebreaker: sanitize(parsed.linkedin_icebreaker),
+      email_1_subject: sanitize(parsed.email_1_subject),
+      email_1_icebreaker: sanitize(parsed.email_1_icebreaker),
+      email_2_subject: sanitize(parsed.email_2_subject),
+      email_2_icebreaker: sanitize(parsed.email_2_icebreaker),
+      email_3_subject: sanitize(parsed.email_3_subject),
+      email_3_icebreaker: sanitize(parsed.email_3_icebreaker),
+      email_4_subject: sanitize(parsed.email_4_subject),
+      email_4_icebreaker: sanitize(parsed.email_4_icebreaker),
+    }
   } catch {
     throw new Error(`Failed to parse Claude JSON response: ${raw.slice(0, 200)}`)
   }

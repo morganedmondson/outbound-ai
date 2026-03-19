@@ -47,3 +47,10 @@ export interface ScrapeResult {
   linkedinContent: string | null
   linkedinBlocked: boolean
 }
+
+export interface GeneratePayload {
+  prospectName: string
+  contextNotes: string
+  scrapeResult: ScrapeResult
+  notepadContent?: string
+}

@@ -9,23 +9,20 @@ import {
   countWords,
   EMAIL_CONFIGS,
 } from '@/lib/templates'
-import type { GeneratedMessages, ScrapeResult } from '@/types'
+import type { GeneratedMessages, GeneratePayload } from '@/types'
 
 export async function POST(req: NextRequest) {
   try {
-    const body: {
-      prospectName: string
-      contextNotes: string
-      scrapeResult: ScrapeResult
-    } = await req.json()
+    const body: GeneratePayload = await req.json()
 
-    const { prospectName, contextNotes, scrapeResult } = body
+    const { prospectName, contextNotes, scrapeResult, notepadContent } = body
 
     const claude = await generateIcebreakers({
       prospectName,
       websiteContent: scrapeResult.websiteContent,
       linkedinContent: scrapeResult.linkedinContent,
       contextNotes,
+      notepadContent,
     })
 
     const name = claude.prospect_first_name || prospectName || 'there'
