@@ -1,45 +1,28 @@
-export interface ProspectFormData {
+export interface MessageTemplate {
+  id: string
   name: string
-  websiteUrl: string
-  linkedinUrl: string
-  linkedinText: string
-  contextNotes: string
+  channel: 'linkedin' | 'email'
+  subject?: string        // for email templates only
+  body: string            // full message body — must contain [icebreaker] placeholder
+  createdAt: string
+  updatedAt: string
 }
 
-export interface EmailMessage {
-  id: 'email1' | 'email2' | 'email3' | 'email4'
-  label: string
-  angle: string
-  subject: string
+export interface GeneratedMessage {
+  templateId: string
+  templateName: string
+  channel: 'linkedin' | 'email'
+  subject?: string
   icebreaker: string
-  body: string
+  fullMessage: string
   wordCount: number
+  charCount: number
 }
 
 export interface GeneratedMessages {
   prospectName: string
   companyName: string
-  linkedin: {
-    icebreaker: string
-    fullMessage: string
-    wordCount: number
-    charCount: number
-  }
-  emails: EmailMessage[]
-}
-
-export interface ClaudeGeneratedContent {
-  prospect_first_name: string
-  company_name: string
-  linkedin_icebreaker: string
-  email_1_subject: string
-  email_1_icebreaker: string
-  email_2_subject: string
-  email_2_icebreaker: string
-  email_3_subject: string
-  email_3_icebreaker: string
-  email_4_subject: string
-  email_4_icebreaker: string
+  messages: GeneratedMessage[]
 }
 
 export interface ScrapeResult {
@@ -47,8 +30,6 @@ export interface ScrapeResult {
   linkedinContent: string | null
   linkedinBlocked: boolean
 }
-
-export type NestiProduct = 'voice' | 'whatsapp' | 'qr_boards'
 
 export interface GeneratePayload {
   prospectName: string
@@ -58,27 +39,23 @@ export interface GeneratePayload {
   websiteUrl?: string
   linkedinUrl?: string
   likedExamples?: string[]
-  selectedProducts?: NestiProduct[]
+  templates: MessageTemplate[]
 }
 
 export type ProspectStatus = 'new' | 'contacted' | 'replied' | 'demo_booked' | 'not_interested'
 
 export type MessageFeedback = 'liked' | 'disliked' | null
 
-export interface ChannelTracker {
-  linkedin: boolean
-  email1: boolean
-  email2: boolean
-  email3: boolean
-  email4: boolean
-}
+export type MessageFeedbackMap = Record<string, MessageFeedback>
 
-export interface MessageFeedbackMap {
-  linkedin: MessageFeedback
-  email1: MessageFeedback
-  email2: MessageFeedback
-  email3: MessageFeedback
-  email4: MessageFeedback
+export type ChannelTracker = Record<string, boolean>
+
+export interface ProspectFormData {
+  name: string
+  websiteUrl: string
+  linkedinUrl: string
+  linkedinText: string
+  contextNotes: string
 }
 
 export interface ProspectRecord {

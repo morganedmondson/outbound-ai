@@ -1,5 +1,3 @@
-import type { NestiProduct } from '@/types'
-
 export function countWords(text: string): number {
   return text.trim().split(/\s+/).filter(Boolean).length
 }
@@ -12,51 +10,24 @@ export interface EmailConfig {
   angle: string
 }
 
-export function getEmailConfigs(products: NestiProduct[]): EmailConfig[] {
-  if (products.length === 1) {
-    if (products[0] === 'voice') {
-      return [
-        { id: 'email1', label: 'Email 1', angle: 'After Hours' },
-        { id: 'email2', label: 'Email 2', angle: 'Differentiation' },
-        { id: 'email3', label: 'Email 3', angle: 'Cost' },
-        { id: 'email4', label: 'Email 4', angle: 'Credibility' },
-      ]
-    }
-    if (products[0] === 'whatsapp') {
-      return [
-        { id: 'email1', label: 'Email 1', angle: 'Response Speed' },
-        { id: 'email2', label: 'Email 2', angle: 'Qualification Quality' },
-        { id: 'email3', label: 'Email 3', angle: 'Efficiency' },
-        { id: 'email4', label: 'Email 4', angle: 'Credibility' },
-      ]
-    }
-    if (products[0] === 'qr_boards') {
-      return [
-        { id: 'email1', label: 'Email 1', angle: 'Interactive Boards' },
-        { id: 'email2', label: 'Email 2', angle: 'First Mover' },
-        { id: 'email3', label: 'Email 3', angle: 'Revenue' },
-        { id: 'email4', label: 'Email 4', angle: 'Credibility' },
-      ]
-    }
-  }
-  // Suite (2 or 3 products)
+export function getEmailConfigs(): EmailConfig[] {
   return [
-    { id: 'email1', label: 'Email 1', angle: 'AI Voice' },
-    { id: 'email2', label: 'Email 2', angle: 'AI WhatsApp' },
-    { id: 'email3', label: 'Email 3', angle: 'AI QR Boards' },
+    { id: 'email1', label: 'Email 1', angle: 'After Hours' },
+    { id: 'email2', label: 'Email 2', angle: 'Differentiation' },
+    { id: 'email3', label: 'Email 3', angle: 'Cost' },
     { id: 'email4', label: 'Email 4', angle: 'Credibility' },
   ]
 }
 
-// ─── Backwards-compatible default (Voice only) ────────────────────────────────
-export const EMAIL_CONFIGS = getEmailConfigs(['voice'])
+// ─── Backwards-compatible default ────────────────────────────────
+export const EMAIL_CONFIGS = getEmailConfigs()
 
 // ─── LinkedIn DM ──────────────────────────────────────────────────────────────
 
 export function buildLinkedInMessage(
   firstName: string,
   icebreaker: string,
-  products: NestiProduct[] = ['voice'],
+  products: string[] = ['voice'],
 ): string {
   const isSuite = products.length > 1
 
@@ -120,7 +91,7 @@ Would you potentially be interested in a 15-min demo at some point in the coming
 export function buildEmail1(
   firstName: string,
   icebreaker: string,
-  products: NestiProduct[] = ['voice'],
+  products: string[] = ['voice'],
 ): string {
   const isSuite = products.length > 1
 
@@ -181,7 +152,7 @@ Worth a quick 15-minute call to see how it works?`
 export function buildEmail2(
   firstName: string,
   icebreaker: string,
-  products: NestiProduct[] = ['voice'],
+  products: string[] = ['voice'],
 ): string {
   const isSuite = products.length > 1
 
@@ -245,7 +216,7 @@ export function buildEmail3(
   firstName: string,
   icebreaker: string,
   companyName: string,
-  products: NestiProduct[] = ['voice'],
+  products: string[] = ['voice'],
 ): string {
   const isSuite = products.length > 1
 
@@ -309,7 +280,7 @@ export function buildEmail4(
   firstName: string,
   icebreaker: string,
   companyName: string,
-  products: NestiProduct[] = ['voice'],
+  products: string[] = ['voice'],
 ): string {
   const isSuite = products.length > 1
 

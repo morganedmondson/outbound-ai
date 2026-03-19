@@ -8,6 +8,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const links = [
     { href: '/', label: 'Generate' },
     { href: '/prospects', label: 'Prospects' },
+    { href: '/templates', label: 'Templates' },
     { href: '/notepad', label: 'Notepad' },
   ]
   return (

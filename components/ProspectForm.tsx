@@ -1,32 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import type { ProspectFormData, GeneratedMessages, GeneratePayload, ScrapeResult, NestiProduct } from '@/types'
-import { getLikedExamples } from '@/lib/storage'
+import type { ProspectFormData, GeneratedMessages, GeneratePayload, ScrapeResult } from '@/types'
+import { getLikedExamples, getTemplates } from '@/lib/storage'
 
 interface Props {
   onGenerate: (messages: GeneratedMessages, payload: GeneratePayload) => void
   isGenerating: boolean
   setIsGenerating: (v: boolean) => void
 }
-
-const PRODUCTS: { id: NestiProduct; label: string; description: string }[] = [
-  {
-    id: 'voice',
-    label: 'AI Voice',
-    description: 'Overflow and out-of-hours call handling',
-  },
-  {
-    id: 'whatsapp',
-    label: 'AI WhatsApp',
-    description: 'Instant inbound lead qualification',
-  },
-  {
-    id: 'qr_boards',
-    label: 'AI QR Boards',
-    description: 'Interactive for sale and to let boards',
-  },
-]
 
 export default function ProspectForm({ onGenerate, isGenerating, setIsGenerating }: Props) {
   const [form, setForm] = useState<ProspectFormData>({
@@ -36,8 +18,6 @@ export default function ProspectForm({ onGenerate, isGenerating, setIsGenerating
     linkedinText: '',
     contextNotes: '',
   })
-
-  const [selectedProducts, setSelectedProducts] = useState<NestiProduct[]>(['voice'])
 
   const [scrapeStatus, setScrapeStatus] = useState<{
     website: 'idle' | 'ok' | 'error'
@@ -51,21 +31,6 @@ export default function ProspectForm({ onGenerate, isGenerating, setIsGenerating
     setForm((prev) => ({ ...prev, [field]: value }))
   }
 
-  function toggleProduct(id: NestiProduct) {
-    setSelectedProducts((prev) => {
-      if (prev.includes(id)) {
-        // Don't allow deselecting if it's the last one
-        if (prev.length === 1) return prev
-        return prev.filter((p) => p !== id)
-      }
-      return [...prev, id]
-    })
-  }
-
-  function selectAll() {
-    setSelectedProducts(['voice', 'whatsapp', 'qr_boards'])
-  }
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
@@ -73,7 +38,6 @@ export default function ProspectForm({ onGenerate, isGenerating, setIsGenerating
     setScrapeStatus({ website: 'idle', linkedin: 'idle' })
 
     try {
-      // Step 1: Scrape
       const scrapeRes = await fetch('/api/scrape', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -96,24 +60,28 @@ export default function ProspectForm({ onGenerate, isGenerating, setIsGenerating
           : 'idle',
       })
 
-      // If LinkedIn was blocked, show paste area and wait for user to paste
       if (scrapeData.linkedinBlocked && !form.linkedinText) {
         setShowLinkedinPaste(true)
         setIsGenerating(false)
         return
       }
 
-      // Merge manual LinkedIn paste if provided
       const mergedScrape: ScrapeResult = {
         ...scrapeData,
         linkedinContent: form.linkedinText || scrapeData.linkedinContent,
       }
 
-      // Read notepad content from localStorage
       const notepadContent =
         typeof window !== 'undefined' ? localStorage.getItem('nesti-notepad') || '' : ''
 
       const likedExamples = getLikedExamples()
+      const templates = getTemplates()
+
+      if (templates.length === 0) {
+        setError('No message templates found. Add at least one template on the Templates page.')
+        setIsGenerating(false)
+        return
+      }
 
       const payload: GeneratePayload = {
         prospectName: form.name,
@@ -123,10 +91,9 @@ export default function ProspectForm({ onGenerate, isGenerating, setIsGenerating
         websiteUrl: form.websiteUrl,
         linkedinUrl: form.linkedinUrl,
         likedExamples,
-        selectedProducts,
+        templates,
       }
 
-      // Step 2: Generate
       const genRes = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -154,11 +121,7 @@ export default function ProspectForm({ onGenerate, isGenerating, setIsGenerating
 
   function StatusDot({ status }: { status: 'idle' | 'ok' | 'error' | 'blocked' }) {
     if (status === 'idle') return null
-    const colors = {
-      ok: 'bg-success',
-      error: 'bg-error',
-      blocked: 'bg-warning',
-    }
+    const colors = { ok: 'bg-success', error: 'bg-error', blocked: 'bg-warning' }
     const labels = { ok: 'Scraped', error: 'Failed', blocked: 'Blocked' }
     return (
       <span className="inline-flex items-center gap-1 ml-2 text-xs text-muted">
@@ -168,69 +131,11 @@ export default function ProspectForm({ onGenerate, isGenerating, setIsGenerating
     )
   }
 
-  const isAllSelected = selectedProducts.length === 3
+  // Get template count for display (client-side only)
+  const templateCount = typeof window !== 'undefined' ? getTemplates().length : 3
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      {/* Product selector */}
-      <div>
-        <div className="flex items-center justify-between mb-2">
-          <label className={labelClass + ' mb-0'}>Product focus</label>
-          <button
-            type="button"
-            onClick={selectAll}
-            className={`text-xs transition-colors ${
-              isAllSelected
-                ? 'text-primary font-medium'
-                : 'text-muted hover:text-primary'
-            }`}
-          >
-            {isAllSelected ? 'Full suite selected' : 'Select all'}
-          </button>
-        </div>
-        <div className="flex flex-col gap-2">
-          {PRODUCTS.map((product) => {
-            const active = selectedProducts.includes(product.id)
-            return (
-              <button
-                key={product.id}
-                type="button"
-                onClick={() => toggleProduct(product.id)}
-                className={`flex items-center gap-3 rounded-lg border px-3.5 py-2.5 text-left transition-all ${
-                  active
-                    ? 'border-primary/40 bg-primary/5 ring-1 ring-primary/20'
-                    : 'border-border bg-surface hover:border-border/60 hover:bg-surface'
-                }`}
-              >
-                <div
-                  className={`flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border transition-colors ${
-                    active ? 'border-primary bg-primary' : 'border-border bg-white'
-                  }`}
-                >
-                  {active && (
-                    <svg className="h-2.5 w-2.5 text-white" fill="none" viewBox="0 0 10 8">
-                      <path d="M1 4l3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  )}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className={`text-sm font-medium ${active ? 'text-primary' : 'text-ntext'}`}>
-                    {product.label}
-                  </p>
-                  <p className="text-xs text-muted leading-snug">{product.description}</p>
-                </div>
-              </button>
-            )
-          })}
-        </div>
-        {selectedProducts.length > 1 && (
-          <p className="mt-2 text-xs text-muted">
-            Multi-product selected — messages will pitch the full Nesti suite.
-          </p>
-        )}
-      </div>
-
-      {/* Name */}
       <div>
         <label className={labelClass}>Contact name</label>
         <input
@@ -242,7 +147,6 @@ export default function ProspectForm({ onGenerate, isGenerating, setIsGenerating
         />
       </div>
 
-      {/* Website */}
       <div>
         <label className={labelClass}>
           Agency website
@@ -257,7 +161,6 @@ export default function ProspectForm({ onGenerate, isGenerating, setIsGenerating
         />
       </div>
 
-      {/* LinkedIn URL */}
       <div>
         <label className={labelClass}>
           LinkedIn profile URL
@@ -277,13 +180,10 @@ export default function ProspectForm({ onGenerate, isGenerating, setIsGenerating
         )}
       </div>
 
-      {/* LinkedIn paste — shown when blocked or manually toggled */}
       {(showLinkedinPaste || scrapeStatus.linkedin === 'blocked') && (
         <div>
           <label className={labelClass}>LinkedIn profile text (paste manually)</label>
-          <p className="text-xs text-muted mb-2">
-            Open their LinkedIn profile → Ctrl+A → Ctrl+C → paste here
-          </p>
+          <p className="text-xs text-muted mb-2">Open their LinkedIn profile → Ctrl+A → Ctrl+C → paste here</p>
           <textarea
             rows={6}
             placeholder="Paste LinkedIn profile content here..."
@@ -304,7 +204,6 @@ export default function ProspectForm({ onGenerate, isGenerating, setIsGenerating
         </button>
       )}
 
-      {/* Context notes */}
       <div>
         <label className={labelClass}>Context notes (optional)</label>
         <textarea
@@ -336,7 +235,7 @@ export default function ProspectForm({ onGenerate, isGenerating, setIsGenerating
             Generating…
           </span>
         ) : (
-          'Generate messages'
+          `Generate for ${templateCount} template${templateCount !== 1 ? 's' : ''}`
         )}
       </button>
     </form>

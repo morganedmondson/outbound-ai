@@ -13,9 +13,7 @@ export default function Home() {
   const [lastPayload, setLastPayload] = useState<GeneratePayload | null>(null)
   const [regenError, setRegenError] = useState<string | null>(null)
   const [prospectId, setProspectId] = useState<string | null>(null)
-  const [feedback, setFeedback] = useState<MessageFeedbackMap>({
-    linkedin: null, email1: null, email2: null, email3: null, email4: null
-  })
+  const [feedback, setFeedback] = useState<MessageFeedbackMap>({})
 
   function handleGenerate(msgs: GeneratedMessages, payload: GeneratePayload) {
     const record = createProspectRecord(payload, msgs)
@@ -23,12 +21,12 @@ export default function Home() {
     setProspectId(record.id)
     setMessages(msgs)
     setLastPayload(payload)
-    setFeedback({ linkedin: null, email1: null, email2: null, email3: null, email4: null })
+    setFeedback({})
     setRegenError(null)
   }
 
-  function handleFeedback(tab: keyof MessageFeedbackMap, value: 'liked' | 'disliked') {
-    const next = { ...feedback, [tab]: feedback[tab] === value ? null : value }
+  function handleFeedback(templateId: string, value: 'liked' | 'disliked') {
+    const next = { ...feedback, [templateId]: feedback[templateId] === value ? null : value }
     setFeedback(next)
     if (prospectId) {
       updateProspect(prospectId, { feedback: next })
