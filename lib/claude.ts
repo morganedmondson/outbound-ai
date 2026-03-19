@@ -126,16 +126,17 @@ Use any specific details you can find (agency name, location, specialisms, award
 
   const response = await client.messages.create({
     model: 'claude-opus-4-6',
-    max_tokens: 1024,
+    max_tokens: 4096,
     thinking: { type: 'adaptive' },
     system: SYSTEM_PROMPT,
     messages: [{ role: 'user', content: userMessage }],
   })
 
-  // Extract text block
+  // Extract text block (thinking blocks come first — skip them)
   const textBlock = response.content.find((b) => b.type === 'text')
   if (!textBlock || textBlock.type !== 'text') {
-    throw new Error('No text response from Claude')
+    const types = response.content.map((b) => b.type).join(', ')
+    throw new Error(`No text block in Claude response. Blocks received: ${types || 'none'}. Stop reason: ${response.stop_reason}`)
   }
 
   // Strip any accidental markdown fences
