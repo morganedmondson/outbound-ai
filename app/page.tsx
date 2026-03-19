@@ -9,12 +9,8 @@ import type { GeneratedMessages, GeneratePayload } from '@/types'
 
 function NestiLogo() {
   return (
-    <Link href="/" className="flex items-center gap-2.5 no-underline">
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="28" height="28" rx="7" fill="#2764EB"/>
-        <path d="M7 20V8h2.8l6.4 8V8H19v12h-2.8L9.8 12v8H7z" fill="white"/>
-      </svg>
-      <span className="text-[15px] font-semibold tracking-tight text-ntext">nesti</span>
+    <Link href="/" className="flex items-center no-underline">
+      <img src="/nesti-logo.svg" alt="Nesti" className="h-7 w-auto" />
     </Link>
   )
 }
