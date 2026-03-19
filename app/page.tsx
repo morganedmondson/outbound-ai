@@ -1,55 +1,38 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import ProspectForm from '@/components/ProspectForm'
 import MessageTabs from '@/components/MessageTabs'
-import type { GeneratedMessages, GeneratePayload } from '@/types'
-
-function NestiLogo() {
-  return (
-    <Link href="/" className="flex items-center no-underline">
-      <img src="/nesti-logo.svg" alt="Nesti" className="h-7 w-auto" />
-    </Link>
-  )
-}
-
-function Nav() {
-  const pathname = usePathname()
-  const links = [
-    { href: '/', label: 'Generate' },
-    { href: '/notepad', label: 'Notepad' },
-  ]
-  return (
-    <nav className="flex items-center gap-1 ml-8">
-      {links.map((l) => (
-        <Link
-          key={l.href}
-          href={l.href}
-          className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-            pathname === l.href
-              ? 'bg-primary/10 text-primary'
-              : 'text-muted hover:text-ntext hover:bg-background'
-          }`}
-        >
-          {l.label}
-        </Link>
-      ))}
-    </nav>
-  )
-}
+import AppShell from '@/components/AppShell'
+import { createProspectRecord, saveProspect, updateProspect, getLikedExamples } from '@/lib/storage'
+import type { GeneratedMessages, GeneratePayload, MessageFeedbackMap } from '@/types'
 
 export default function Home() {
   const [messages, setMessages] = useState<GeneratedMessages | null>(null)
   const [isGenerating, setIsGenerating] = useState(false)
   const [lastPayload, setLastPayload] = useState<GeneratePayload | null>(null)
   const [regenError, setRegenError] = useState<string | null>(null)
+  const [prospectId, setProspectId] = useState<string | null>(null)
+  const [feedback, setFeedback] = useState<MessageFeedbackMap>({
+    linkedin: null, email1: null, email2: null, email3: null, email4: null
+  })
 
   function handleGenerate(msgs: GeneratedMessages, payload: GeneratePayload) {
+    const record = createProspectRecord(payload, msgs)
+    saveProspect(record)
+    setProspectId(record.id)
     setMessages(msgs)
     setLastPayload(payload)
+    setFeedback({ linkedin: null, email1: null, email2: null, email3: null, email4: null })
     setRegenError(null)
+  }
+
+  function handleFeedback(tab: keyof MessageFeedbackMap, value: 'liked' | 'disliked') {
+    const next = { ...feedback, [tab]: feedback[tab] === value ? null : value }
+    setFeedback(next)
+    if (prospectId) {
+      updateProspect(prospectId, { feedback: next })
+    }
   }
 
   async function handleRegenerate() {
@@ -61,7 +44,8 @@ export default function Home() {
       const notepadContent =
         typeof window !== 'undefined' ? localStorage.getItem('nesti-notepad') || '' : ''
 
-      const payload: GeneratePayload = { ...lastPayload, notepadContent: notepadContent || undefined }
+      const likedExamples = getLikedExamples()
+      const payload: GeneratePayload = { ...lastPayload, notepadContent: notepadContent || undefined, likedExamples }
 
       const res = await fetch('/api/generate', {
         method: 'POST',
@@ -82,17 +66,9 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-surface shadow-soft">
-        <div className="mx-auto max-w-screen-xl px-6 py-3.5 flex items-center">
-          <NestiLogo />
-          <Nav />
-        </div>
-      </header>
-
+    <AppShell>
       {/* Main layout */}
-      <div className="mx-auto max-w-screen-xl px-6 py-8 flex gap-8 h-[calc(100vh-57px)]">
+      <div className="mx-auto max-w-screen-xl px-6 py-8 flex gap-8 flex-1 min-h-0">
         {/* Left panel */}
         <aside className="w-[360px] flex-shrink-0 overflow-y-auto">
           <div className="rounded-xl border border-border bg-surface shadow-soft p-6">
@@ -122,6 +98,8 @@ export default function Home() {
                   messages={messages}
                   onRegenerate={handleRegenerate}
                   isGenerating={isGenerating}
+                  feedback={feedback}
+                  onFeedback={handleFeedback}
                 />
               </div>
             </div>
@@ -140,6 +118,6 @@ export default function Home() {
           )}
         </main>
       </div>
-    </div>
+    </AppShell>
   )
 }

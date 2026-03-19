@@ -1,43 +1,9 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import AppShell from '@/components/AppShell'
 
 const STORAGE_KEY = 'nesti-notepad'
-
-function NestiLogo() {
-  return (
-    <Link href="/" className="flex items-center no-underline">
-      <img src="/nesti-logo.svg" alt="Nesti" className="h-7 w-auto" />
-    </Link>
-  )
-}
-
-function Nav() {
-  const pathname = usePathname()
-  const links = [
-    { href: '/', label: 'Generate' },
-    { href: '/notepad', label: 'Notepad' },
-  ]
-  return (
-    <nav className="flex items-center gap-1 ml-8">
-      {links.map((l) => (
-        <Link
-          key={l.href}
-          href={l.href}
-          className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-            pathname === l.href
-              ? 'bg-primary/10 text-primary'
-              : 'text-muted hover:text-ntext hover:bg-background'
-          }`}
-        >
-          {l.label}
-        </Link>
-      ))}
-    </nav>
-  )
-}
 
 export default function NotepadPage() {
   const [content, setContent] = useState('')
@@ -71,15 +37,7 @@ export default function NotepadPage() {
   const wordCount = content.trim() ? content.trim().split(/\s+/).length : 0
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
-      <header className="border-b border-border bg-surface shadow-soft flex-shrink-0">
-        <div className="mx-auto max-w-screen-xl px-6 py-3.5 flex items-center">
-          <NestiLogo />
-          <Nav />
-        </div>
-      </header>
-
+    <AppShell>
       {/* Content */}
       <div className="mx-auto max-w-screen-xl w-full px-6 py-8 flex flex-col flex-1">
         <div className="flex items-start justify-between mb-5">
@@ -114,6 +72,6 @@ export default function NotepadPage() {
           />
         </div>
       </div>
-    </div>
+    </AppShell>
   )
 }

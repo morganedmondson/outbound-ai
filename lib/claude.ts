@@ -108,10 +108,11 @@ interface GenerateOptions {
   linkedinContent: string | null
   contextNotes: string
   notepadContent?: string
+  likedExamples?: string[]
 }
 
 export async function generateIcebreakers(opts: GenerateOptions): Promise<ClaudeGeneratedContent> {
-  const { prospectName, websiteContent, linkedinContent, contextNotes, notepadContent } = opts
+  const { prospectName, websiteContent, linkedinContent, contextNotes, notepadContent, likedExamples } = opts
 
   const userMessage = `Generate personalised icebreakers for this prospect.
 
@@ -121,6 +122,7 @@ ${websiteContent ? `WEBSITE CONTENT:\n${websiteContent}\n` : 'No website content
 ${linkedinContent ? `LINKEDIN CONTENT:\n${linkedinContent}\n` : 'No LinkedIn content available.\n'}
 ${contextNotes ? `EXTRA CONTEXT:\n${contextNotes}\n` : ''}
 ${notepadContent ? `COPY STYLE REFERENCE (examples of copy the sender likes — match this tone, style, and structure):\n${notepadContent}\n` : ''}
+${likedExamples && likedExamples.length > 0 ? `MESSAGES THAT WORKED WELL (these were marked as liked — match their tone, structure, and personalisation level closely):\n\n${likedExamples.map((m, i) => `Example ${i + 1}:\n${m}`).join('\n\n---\n\n')}\n` : ''}
 
 Use any specific details you can find (agency name, location, specialisms, awards, team size, recent news) to make each icebreaker feel genuinely personalised. If you don't have much to work with, make a plausible, professional inference based on what you do know. Remember: absolutely no em dashes, colons, or semicolons anywhere in your output.`
 

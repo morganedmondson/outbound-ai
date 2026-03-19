@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
   try {
     const body: GeneratePayload = await req.json()
 
-    const { prospectName, contextNotes, scrapeResult, notepadContent } = body
+    const { prospectName, contextNotes, scrapeResult, notepadContent, likedExamples } = body
 
     const claude = await generateIcebreakers({
       prospectName,
@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
       linkedinContent: scrapeResult.linkedinContent,
       contextNotes,
       notepadContent,
+      likedExamples,
     })
 
     const name = claude.prospect_first_name || prospectName || 'there'

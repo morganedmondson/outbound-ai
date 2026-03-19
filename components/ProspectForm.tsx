@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { ProspectFormData, GeneratedMessages, GeneratePayload, ScrapeResult } from '@/types'
+import { getLikedExamples } from '@/lib/storage'
 
 interface Props {
   onGenerate: (messages: GeneratedMessages, payload: GeneratePayload) => void
@@ -77,11 +78,16 @@ export default function ProspectForm({ onGenerate, isGenerating, setIsGenerating
       const notepadContent =
         typeof window !== 'undefined' ? localStorage.getItem('nesti-notepad') || '' : ''
 
+      const likedExamples = getLikedExamples()
+
       const payload: GeneratePayload = {
         prospectName: form.name,
         contextNotes: form.contextNotes,
         scrapeResult: mergedScrape,
         notepadContent: notepadContent || undefined,
+        websiteUrl: form.websiteUrl,
+        linkedinUrl: form.linkedinUrl,
+        likedExamples,
       }
 
       // Step 2: Generate

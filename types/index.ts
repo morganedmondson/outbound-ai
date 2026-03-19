@@ -53,4 +53,44 @@ export interface GeneratePayload {
   contextNotes: string
   scrapeResult: ScrapeResult
   notepadContent?: string
+  websiteUrl?: string
+  linkedinUrl?: string
+  likedExamples?: string[]
+}
+
+export type ProspectStatus = 'new' | 'contacted' | 'replied' | 'demo_booked' | 'not_interested'
+
+export type MessageFeedback = 'liked' | 'disliked' | null
+
+export interface ChannelTracker {
+  linkedin: boolean
+  email1: boolean
+  email2: boolean
+  email3: boolean
+  email4: boolean
+}
+
+export interface MessageFeedbackMap {
+  linkedin: MessageFeedback
+  email1: MessageFeedback
+  email2: MessageFeedback
+  email3: MessageFeedback
+  email4: MessageFeedback
+}
+
+export interface ProspectRecord {
+  id: string
+  createdAt: string
+  updatedAt: string
+  name: string
+  company: string
+  websiteUrl: string
+  linkedinUrl: string
+  contextNotes: string
+  messages: GeneratedMessages | null
+  lastPayload: GeneratePayload | null
+  status: ProspectStatus
+  channels: ChannelTracker
+  feedback: MessageFeedbackMap
+  notes: string
 }
